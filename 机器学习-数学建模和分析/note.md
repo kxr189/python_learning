@@ -72,5 +72,96 @@
 
     定义问题 ——> 数据理解 ——> 数据准备 ——> 评估算法 ——> 优化模型 ——> 结果部署 
 
-## 二、
+## 二、第一个机器学习python数模项目
+**项目**简介：
+    
+    本例题是针对鸢尾花进行分类的一个项目，数据集是包含鸢尾花的三个亚属的分类信息，通过机器学习算法生成一个模型，自动分类新数据到这三个亚属中的某一个。
+
+分析数据集特征：
+    
+    1.所有的特征数据都是数字，不需要考虑如何导入和处理数据。
+    2.这是一个分类问题，可以通过有监督学习算法来解决。
+    3.所有的特征的数值采用相同的单位，不需要进行尺度的转换。
+
+步骤：
+<center>
+
+<font color=#FF000 ><font size=4 >导入数据</font></font>\
+&dArr;\
+<font color=#FF000 ><font size=4 >分析数据</font></font>\
+&dArr;\
+<font color=#FF000 ><font size=4 >数据可视化</font></font>\
+&dArr;\
+<font color=#FF000 ><font size=4 >评估算法</font></font>\
+&dArr;\
+<font color=#FF000 ><font size=4 >实施预测</font></font>\
+&dArr;\
+
+</center>
+
+具体步骤：
+```
+一、导入数据；
+二、导入类库；
+三、导入数据集；
+四、概述数据
+    1、数据的维度；
+    2、查看数据自身；
+    3、统计描述；
+    4、数据分类的情况；
+五、数据可视化
+    1、单变量图表
+    2、多变量图标
+六、评估算法
+    1、分离出评估数据集
+    2、采用10折交叉验证来评估算法模型
+    3、生成六种模型来预测新数据
+    4、选择最优模型
+七、实施预测
+八、总结
+```
+
+
+### 1、下载安装类库
+
+安装类库：
+
+    直接在终端中安装：pip install pandas
+
+导入类库：
+
+    from pandas import read_csv 
+    from pandas.plotting import scatter_matrix 
+    from matplotlib import pyplot 
+    from sklearn.model_selection import train_test_split 
+    from sklearn.model_selection import KFold 
+    from sklearn.model_selection import cross_val_score 
+    from sklearn.metrics import classification_report 
+    from sklearn.metrics import confusion_matrix 
+    from sklearn.metrics import accuracy_score 
+    from sklearn.linear_model import LogisticRegression 
+    from sklearn.tree import DecisionTreeClassifier 
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis 
+    from sklearn.neighbors import KNeighborsClassifier 
+    from sklearn.naive_bayes import GaussianNB 
+    from sklearn.svm import SVC 
+
+### 2、导入数据并分析
+
+代码示例：单引号中的是数据集的路径（注意）
+
+```
+ filename = 'C:/Users/22773/Desktop/pythonlearning/课件/第二次课/0520代码+数据/iris.data.csv'
+```
+
+#### 代码知识点
+
+<font color=#FF000 ><font size=5 >**详见“自编代码”**</font></font>
+
+
+
+### 3、创建六个模型并比较
+
+
+
 
