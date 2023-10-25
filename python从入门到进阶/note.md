@@ -542,3 +542,366 @@ growth_days = 7
 print(f"公司：{name}，股票代码：{stock_code}，当前股价：{stock_price}")
 print("每日增长系数是：%s，经过%d天的增长后，股价达到了：%.2f" % (stock_price_daily_growth_factor,growth_days,stock_price * stock_price_daily_growth_factor ** growth_days))
 ```
+
+## 09 数据输入(input()语句的使用)
+- input语句可以从键盘中获取键盘输入
+
+代码示例：
+```python
+print("请告诉我你是谁?")
+name = input()
+print("你是%s" % name)
+"""结果：
+请告诉我你是谁?
+nidie
+你是nidie
+"""
+```
+其他编写方式：
+```python
+name = input("请告诉我你是谁?")
+print("你是%s" % name)
+"""结果：
+请告诉我你是谁?
+nidie
+你是nidie
+"""
+```
+input语句中不论键盘输入什么，都看作字符串。
+需要其他数据类型时请用数据类型转换指令。
+
+# 第三章 Python判断语句
+## 01 布尔类型和比较运算符
+- 布尔类型：只有两个结果
+  - 是、真
+  - 否、假
+- 布尔类型不仅可以自行定义，也可以通过比较得到
+
+```python
+# 定义变量存储bool类型的数据
+bool_1 = True
+bool_2 = False
+print(f"bool_1变量的内容是：{bool_1}，类型是：{type(bool_1)}")
+print(f"bool_2变量的内容是：{bool_2}，类型是：{type(bool_2)}")
+# 比较运算符的使用 == , != , > , < , >= , <=
+num1 = 10
+num2 = 10
+print(f"10 == 10 的结果是：{num2 == num1}")
+num1 = 11
+num2 = 10
+print(f"11 != 10 的结果是：{num2 != num1}")
+name1 = "a"
+name2 = "b"
+print(f"name1 == name2 的结果是：{name1 == name2}")
+```
+
+## 02 if语句的基本格式
+格式：
+if 要判断的条件：
+&ensp;&ensp;&ensp;&ensp;条件成立时要做的事情
+代码示例：
+```python
+age = int(input("你几岁？"))
+if age >= 18:
+    print("你老了")
+```
+**注意**：判断语句的结果必须是bool类型，此外，不要忘记冒号
+
+## 03 if else 语句
+代码示例：
+```python
+age = int(input("你几岁？"))
+if age >= 18:
+    print("你老了")
+else:
+    print("还可以")
+```
+
+## 04 if elif else 语句
+多条件判断
+代码示例：
+```python
+age = int(input("你几岁？"))
+if age < 18:
+    print("young")
+elif age > 90:
+    print("old")
+else:
+    print("good")
+```
+
+**注意**：判断是互斥的且有顺序的，满足了就执行，后面的条件就不再进行判断
+
+## 05 判断语句的嵌套
+嵌套的关键点在于<font color=#FF000 ><font size=4 >空格缩进</font></font>
+代码示例：
+```python
+age = int(input("你几岁？"))
+if age < 18:
+    print("young")
+else:
+    if age > 20:
+        print("young1")
+    else:
+        print("young2")
+```
+
+## 06 实战案例
+>使用逻辑判断语句，完成猜数字的案例代码编写
+>案例要求：随机产生一个数字0-10，通过三次判断来猜出数字，猜错会进行大小提示。
+```python
+import random
+num = random.randint(1, 10)
+num_guess = int(input("请输入你所猜到的数字："))
+if num_guess == num:
+    print("恭喜，你一次就猜中了！")
+else:
+    if num_guess > num:
+        print("数字猜大了！")
+    elif num_guess < num:
+        print("数字猜小了")
+    num_guess = int(input("请输入你所猜到的数字："))
+    if num_guess == num:
+        print("恭喜，你第二次就猜中了！")
+    else:
+        if num_guess > num:
+            print("数字猜大了！")
+        elif num_guess < num:
+            print("数字猜小了")
+        num_guess = int(input("请输入你所猜到的数字："))
+        if num_guess == num:
+            print("恭喜，你最后一次猜中了！")
+        else:
+            print("很遗憾，三次机会已用完！")
+```
+
+# 第四章 Python循环语句
+## 01 while循环的基础语法
+结构：
+```python
+# while 条件:
+#     条件满足时，做的事情1
+#     条件满足时，做的事情2
+#     条件满足时，做的事情3
+#     ......
+```
+代码示例：
+```python
+i = 100
+while i >= 0:
+    print(i)
+    i = i - 1
+```
+注意：while循环的条件需要得到bool类型，此外，循环要设置终止条件。
+练习：求1-100的和
+```python
+i = 1
+s = 0
+while i <= 100:
+    s = s + i
+    i = i + 1
+print("1+2+3+...+100=",s) # 5050
+```
+
+## 02 while循环的基础案例
+练习：设置1-100的随机整数，通过while循环，配合input语句，判断数字是否等于所猜数字，机会无限，猜完数字后提示次数。
+```python
+import random
+num = random.randint(1,100)
+i = 1
+guess_num = int(input("输入你猜的数字："))
+while guess_num != num:
+    if guess_num > num:
+        print("你猜的数字大了！")
+    else:
+        print("你猜的数字小了！")
+    i = i + 1
+    guess_num = int(input("再次输入你猜的数字："))
+print("恭喜你猜对了，一共猜了 %s 次" % i)
+```
+
+## 03 while循环的嵌套应用
+代码示例：
+```python
+i = 1
+while i <= 100:
+    print(f"今天是第{i}天")
+    j = 1
+    while j <= 10:
+        print(f"送给她的第{j}朵玫瑰")
+        j += 1
+    i = i + 1
+```
+注意：基于空格缩进来控制层次。
+
+## 04 while循环的嵌套案例
+>知识点补充：
+>>默认print语句输出内容会自动换行，若要不换行，则在print语句中加入end=''就可以了
+代码示例：
+```python
+# hello world
+print("hello ", end='')
+print("world", end='')
+```
+>>制表符：\t，效果等同于键盘上按下Tab健，可以使多行字符串对齐。
+代码示例：
+```python
+# 如果字符差距超过两个则需要两个\t
+print("he\t\tworld")
+print("hello\tworld")
+print("hellolo\tworld")
+"""结果：
+he		world
+hello	world
+hellolo	world
+"""
+```
+练习案例：通过while循环输出9*9乘法表
+代码示例：
+```python
+i = 1
+while i <= 9:
+    j = 1
+    while j <= i:
+        print(f"{j}*{i}={i*j}\t",end='')
+        j += 1
+    i += 1
+    print() # print输出空内容就是换行
+# 1*1=1	
+# 1*2=2	2*2=4	
+# 1*3=3	2*3=6	3*3=9	
+# 1*4=4	2*4=8	3*4=12	4*4=16	
+# 1*5=5	2*5=10	3*5=15	4*5=20	5*5=25	
+# 1*6=6	2*6=12	3*6=18	4*6=24	5*6=30	6*6=36	
+# 1*7=7	2*7=14	3*7=21	4*7=28	5*7=35	6*7=42	7*7=49	
+# 1*8=8	2*8=16	3*8=24	4*8=32	5*8=40	6*8=48	7*8=56	8*8=64	
+# 1*9=9	2*9=18	3*9=27	4*9=36	5*9=45	6*9=54	7*9=63	8*9=72	9*9=81	
+```
+
+## 05 for循环的基础语法
+### 1、基础语法
+结构：
+```python
+# for 临时变量 in 待处理数据集:
+#     循环满足条件时执行的代码
+```
+代码示例：
+```python
+name = "itheima"
+for x in name:
+    # 将name的内容挨个取出
+    print(x)
+```
+for循环也被称之为：**遍历循环**
+注意：同while循环不一样，for循环无法定义循环条件，只能被动地读取数据处理。
+>练习：统计“itheima is a brand of itcast“中有多少个a
+```python
+name = "itheima is a brand of itcast"
+i = 0
+for x in name:
+    if x == 'a':
+        i = i + 1
+print(f"{i}个a")
+```
+
+### 2、range语句
+
+```python
+# for 临时变量 in 待处理数据集:
+#     循环满足条件时执行的代码
+```
+在for语句的结构中，**待处理数据集**严格来说，称之为：<font color=#FF000 ><font size=4 >序列类型</font></font>
+>序列类型：其内容可以一个个依次取出的一种类型，包括：
+- 字符串
+- 列表
+- 元组
+- 等
+
+for循环语句本质上是便利序列类型。
+
+<font color=#FF000 ><font size=4 >range语句：用于获得一个简单的数字序列。</font></font>
+
+>语法一：
+>>range(num)
+>>获取一个从0开始，到num结束的数字序列，不包含num本身。如：range(5)取出的数据是：[0,1,2,3,4]
+
+>语法二：
+>>range(num1,num2)
+>>获取一个从num1开始，到num结束的数字序列，不包含num2本身。
+
+>语法三：
+>>range(num1,num2,step)
+>>获取一个从num1开始，到num2结束的数字序列，不包含num2本身；step为步长。
+
+代码示例：
+```python
+for x in range(10):
+    print(x) # 0 1 2 3 4 5 6 7 8 9
+
+for y in range(2,4):
+    print(y) # 2 3
+
+for z in range(3,6,2):
+    print(z) # 3 5
+```
+
+### 3、变量作用域
+在for循环中，临时变量只在for循环内生效，但实际上在for循环外也能使用，但规范上不推荐。
+
+## 06 for循环的嵌套应用
+代码示例：
+```python
+i = 1
+for i in range(1,101):
+    print(f"今天是第{i}天，坚持")
+    for j in range(1,3):
+        print(f"今天读了{j}本书")
+```
+练习：使用for循环绘制9*9乘法表
+```python
+for i in range(1,10):
+    for j in range(1,i+1):
+        print(f"{j}*{i}={i*j}\t",end='')
+    print() # 换行
+```
+
+## 07 循环中断：break和continue
+### 1、continue关键字
+作用：中断本次循环，直接进入下一次循环；可用于for和while循环。
+注意：continue只能影响所在层的循环。
+代码示例：
+```python
+# 不会出现3
+for i in range(1,6):
+    print("1")
+    for j in range(1,2):
+        print("2")
+        continue
+        print("3")
+    print("4")
+```
+
+### 2、break关键字
+作用：直接结束循环；可用于for和while循环。
+注意：是直接结束当前当层循环。
+
+## 08 综合案例 
+练习案例：发工资
+某公司，账户余额有1W元，给20名员工发工资。
+员工编号1-20，从编号1开始，依次领取工资，每人可以领取1000元；领取工资时，财务判断员工的绩效（1-10，随机生成），如果低于5则不发工资；如果工资发完后则结束发工资。
+```python
+import random
+money = 10000
+sum = 20
+for i in range(1,21):
+    jixiao = random.randint(1,10)
+    if jixiao < 5:
+        print(f"员工{i}，绩效分{jixiao}，低于5，不发工资，账户余额{money}")
+        continue
+    if money >= 1000:
+        money -= 1000
+        print(f"员工{i}，绩效分{jixiao}，高于5，发放工资1000元，账户余额{money}")
+    else:
+        print("工资发完了，下个月再领取吧。")
+        break
+```
