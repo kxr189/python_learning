@@ -914,14 +914,960 @@ for i in range(1,21):
 
 实际案例：
 ```python
+str1 = "aaa"
+str2 = "aaaa"
 
+# 定义函数统计字符串长度
+def my_len(str):
+    count = 0
+    for i in str:
+        count += 1
+    print(f"length_{str} = {count}")
+
+my_len(str1)
+my_len(str2)
+
+# length_aaa = 3
+# length_aaaa = 4
 ```
 
 ## 02 函数的定义
+函数的定义语法如下：
+```python
+# 函数的定义：
+# def 函数名(传入参数):
+#     函数体
+#     return 返回值
+```
+
+代码示例：
+```python
+# 定义函数
+def say_hi():
+    print("hi")
+# 函数的调用
+say_hi()
+```
+
+注意：函数要先定义后调用；传入参数可以省略。
+
 ## 03 函数的参数
+传入参数的功能：在函数进行计算的时候，接受外部调用时提供的数据。
+代码示例：
+```python
+def add(x, y):
+    result = x + y
+    print(f"{x}+{y}={result}")
+
+while(True):
+    x = int(input("输入x："))
+    y = int(input("输入y："))
+    add(x, y)
+```
+>在函数定义中，提供的x和y称之为<font color=#FF000 ><font size=3 >**形参**</font></font>，表示参数声明要使用两个参数。
+
+>在函数调用中，提供的实际数字x和y称之为<font color=#FF000 ><font size=3 >**实参**</font></font>，表示函数执行时用到的真正参数值。
+
+传入参数的数量是不受限制的。
+
 ## 04 函数的返回值
+>什么是返回值？
+>>返回值就是程序中函数完成事情后，最后给调用者的一个结果。
+
+代码示例：
+```python
+def add(x, y):
+    result = x + y
+    return result
+
+while(True):
+    x = int(input("输入x："))
+    y = int(input("输入y："))
+    result = add(x, y)
+    print(f"{x}+{y}={result}")
+```
+
+注意：函数体遇到return关键字后面的就不会再执行了，表示函数已经结束了。
+
+>none类型：无返回值的函数实际上是返回了none这个字面量。
+
+代码示例：
+```python
+def add(x, y):
+    result = x + y
+
+result = add(1,1)
+print("无返回值的函数返回值类型是",type(result))
+# 无返回值的函数返回值类型是 <class 'NoneType'>
+```
+
+>none的使用价值：
+>>可用于if判断上，none = false \
+>>可用于声明无初始值的变量
+```python
+# none 用于if判断
+def check_age(age):
+    if age > 18:
+        return "SUCCESS"
+    else:
+        return None
+
+result = check_age(16)
+
+if not result:
+    # 进入if表示result是None值 也就是Fslse
+    print("未成年，不可以进入")
+```
+
 ## 05 函数说明文档
+函数是纯代码语言，可以给函数添加说明文档，辅助理解函数的作用。\
+按三下双引号加回车会自动写好格式。\
+推荐写法如下：
+```python
+def add(x, y):
+    """
+    add函数可以接受两个参数，实现两数相加的功能
+    :param x: 数1
+    :param y: 数2
+    :return: 两数相加的结果
+    """
+    result = x + y
+    return result
+# 悬停在函数上方会弹出说明文档
+result = add(1,2)
+```
 
 ## 06 函数的嵌套调用
+>什么是函数的嵌套：就是一个函数里面调用另外一个函数。
+
 ## 07 变量的作用域
+>变量的作用域：
+>>指的是变量的作用范围。分为局部变量和全局变量。
+
+>局部变量：
+>>定义在函数体内部的变量，即只在函数体内部生效。
+
+>局部变量的作用：
+>>在函数体内部临时保存数据，函数调用完成后立刻销毁局部变量。
+
+代码示例：
+```python
+# 演示局部变量
+def test_a():
+    num = 100
+    print(num)
+
+test_a()
+# print(num) 会报错，
+# 出了函数，局部变量就无法使用了。
+```
+
+>全局变量：
+>>在函数体内部、外部都可以生效的变量。
+
+代码示例：
+```python
+# 演示全局变量
+num = 100
+def test_a():
+    print(num)
+
+test_a()
+# print(num) 不会报错，
+# 出了函数，全局变量还是能够使用了。
+```
+
+>global关键字
+```python
+# 演示全局变量
+num = 100
+def test_a():
+    num = 200 # 这个num和函数外的num没有任何关系
+    # 里面的num是局部变量，函数外部的num是全局变量
+    print(num)
+
+test_a() # 200
+print(num) # 100
+```
+使用global关键字就可以在函数内部修改全局变量了。
+
+代码示例：
+```python
+# 演示全局变量
+num = 100
+def test_a():
+    global num
+    num = 200
+    print(num)
+
+test_a() # 200
+print(num) # 200
+```
+
 ## 08 综合案例
+<img src="\img\python-函数入门案例图1.jpg" alt="黑马ATM" title="黑马ATM">
+
+代码示例：
+{% spoiler "点击显/隐内容" %}
+
+```python
+# 定义全局变量
+money = 5000000
+name = None
+# 客户姓名输入
+name = input("请输入您的姓名：")
+# 查询查询函数
+def query(show_header):
+    if show_header:
+        print("----------查询余额----------")
+    print(f"{name}，您好，当前的余额为{money}元")
+
+# 存款函数
+def saving(num):
+    global money
+    money += num
+    print("----------存款----------")
+    print(f"{name}，您好，您存款{num}元成功。")
+    query(False)
+
+# 取款函数
+def get_money(num):
+    global money
+    print("----------取款----------")
+    if money >= num:
+        money -= num
+        print(f"{name}，您好，您取款{num}元成功。")
+        query(False)
+    else:
+        print(f"{name}，您好，您的余额不足，余{money}元。")
+
+# 主菜单效果
+def main():
+    print("----------主菜单----------")
+    print(f"{name}，您好，欢迎来到黑马银行ATM，请选择操作：")
+    print("查询余额\t[输入1]")
+    print("存款\t\t[输入2]")
+    print("取款\t\t[输入3]")
+    print("退出\t\t[输入4]")
+    return  input("请输入你的选择：")
+
+while True:
+    choice = main()
+    if choice == "1":
+        query(True)
+        continue
+    elif choice == "2":
+        num = int(input("请输入存款数额："))
+        saving(num)
+        continue
+    elif choice == "3":
+        num = int(input("请输入取款数额："))
+        get_money(num)
+        continue
+    else:
+        print("程序退出。")
+        break
+
+```
+
+{% endspoiler %}
+
+# 第六章 Python数据容器
+## 01 数据容器入门
+>数据容器是什么？
+>>一种可以容纳多份数据的数据类型，容纳的每一份数据称之为一个元素；每一个元素可以是任意类型的数据，如字符串、数字、bool等
+
+>为什么要学习数据容器？
+>>可用于存储大量数据，不用分成很多变量保存数据。
+
+数据容器根据特点的不同，如：
+- 是否支持重复元素
+- 是否可以修改
+- 是否有序等
+分为5类：列表list、元组tuple、字符串str、集合set、字典dict
+
+## 02 数据容器：list（列表）
+### 1、列表的定义
+- 列表的定义语法：
+```python
+# 字面量
+# [元素1,元素2,元素3,......]
+# 
+# 定义变量
+# 变量名称 = [元素1,元素2,元素3,......]
+# 
+# 定义空列表
+# 变量名称 = []
+# 变量名称 = list()
+```
+- 注意事项：列表可以一次性存储多个数据，且<font color=#FF000 ><font size=3 >**可以为不同数据类型，支持嵌套。**</font></font>
+
+代码示例：
+```python
+name_list = ['I', 'love', 'kxr']
+print(name_list)
+print(type(name_list))
+
+name_list1 = ['I', 1, 1.1]
+print(name_list1)
+print(type(name_list1))
+
+name_list2 = ['I', 1, [1, 2, 3]]
+print(name_list2)
+print(type(name_list2))
+```
+### 2、列表的索引
+- 列表的下标索引：
+代码示例：
+```python
+name_list = ['I', 'love', 'kxr']
+print(name_list)
+print(type(name_list))
+
+# 下标索引
+print(name_list[0])
+print(name_list[1])
+print(name_list[2])
+```
+
+- 列表还可以进行反向索引：最后一个元素标记为-1，倒数第二个标记位-2，依次往前递减
+代码示例：
+```python
+name_list = ['I', 'love', 'kxr']
+print(name_list)
+print(type(name_list))
+
+# 下标的反向索引
+print(name_list[-3])
+print(name_list[-2])
+print(name_list[-1])
+```
+
+- 嵌套列表的下标索引
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+print(name_list)
+print(type(name_list))
+
+# 下标索引
+print(name_list[2][0])
+print(name_list[2][1])
+print(name_list[2][2])
+
+# ['I', 'love', [1, 2, 3]]
+# <class 'list'>
+# 1
+# 2
+# 3
+```
+
+### 3、列表的常用操作（方法）
+- 插入元素
+- 删除元素
+- 清空列表
+- 修改元素
+- 统计元素个数
+- 等等
+以上功能都称之为：<font color=#FF000 ><font size=4 >**列表的方法**</font></font>
+
+#### 查询的功能（方法）
+查找某元素的下标，如果找不到，就报错ValueError
+
+注意：如该元素有多个，则找第一个
+
+语法：列表.index(元素)
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+# 查找下标索引
+index = name_list.index([1,2,3])
+print(index) # 2
+# 如果元素不存在会报错
+# index = name_list,index(1)
+```
+
+#### 修改功能（方法）
+修改特定位置的元素值
+
+语法：列表[下标] = 值
+
+注意：正反下标均可以。
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+# 修改功能
+name_list[1] = "O"
+print(name_list) # ['I', 'O', [1, 2, 3]]
+```
+
+#### 插入元素
+语法：列表.insert(下标，元素)，在指定的下标位置，插入指定的元素
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+# 插入元素
+name_list.insert(1,2)
+print(name_list) # ['I', 2, 'love', [1, 2, 3]]
+```
+
+#### 追加元素
+语法：列表.append(元素)，将指定元素追加到列表的尾部。
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+# 追加元素
+name_list.append(2)
+print(name_list) # ['I','love', [1, 2, 3], 2]
+```
+
+还可以追加一批元素：
+语法：列表.extend(其他数据容器)，将其他数据容器的内容取出，依次追加到列表尾部。
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+# 追加元素
+name_list.extend([1,2,3])
+print(name_list) # ['I','love', [1, 2, 3], 1, 2, 3]
+```
+
+注意：append和extend都可以追加一批元素，但append是将这批追加的元素作为整体追加到列表尾部。
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+name_list1 = ['I', 'love', [1, 2, 3]]
+# 追加元素
+name_list.extend([1,2,3])
+print(name_list) # ['I','love', [1, 2, 3], 1, 2, 3]
+name_list1.append([1,2,3])
+print(name_list1) # ['I','love', [1, 2, 3], [1, 2, 3]]
+```
+
+#### 删除或取出元素
+- 语法1：del列表[下标]
+- 语法2：列表.pop(下标) 将元素取出并返回
+
+代码示例：
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+name_list1 = ['I', 'love', [1, 2, 3]]
+# 删除元素
+del name_list[2]
+print(name_list)
+result = name_list1.pop(2)
+print(name_list1,result)
+# ['I', 'love']
+# ['I', 'love'] [1, 2, 3]
+```
+- 删除某个元素在列表中的第一个匹配项
+
+语法：列表.remove(元素)
+
+代码示例：
+```python
+name_list = ['I', 'love', 'I',[1, 2, 3]]
+# 删除元素
+name_list.remove('I')
+print(name_list) # ['love', 'I', [1, 2, 3]]
+```
+
+#### 清空列表
+语法：列表.clear()
+
+代码示例：
+```python
+name_list = ['I', 'love', 'I',[1, 2, 3]]
+# 清空列表
+name_list.clear()
+print(name_list) # []
+```
+
+#### 统计元素数量
+语法：列表.count(元素)
+
+代码示例：
+```python
+name_list = [1,1,1,1,2,3,3,4,4,4,]
+# 统计元素数目
+num = name_list.count(2)
+print(num) # 1
+```
+
+#### 统计列表元素总数
+语法：len(列表)
+
+代码示例：
+```python
+name_list = [1,1,1,1,2,3,3,4,4,4,]
+# 统计数目
+num = len(name_list)
+print(num) # 10
+```
+
+案例练习：
+
+<img src="\img\python-列表课后练习.jpg" alt="常用功能练习" title="常用功能练习">
+
+代码示例：
+```python
+# 定义这个列表并用变量接收
+name_list = [21,25,21,23,22,20]
+# 追加数字31到列表尾部
+name_list.append(31)
+# 追加一个新列表[29,33,30]到列表尾部
+name_list.extend([29,33,30])
+# 取出第一个元素
+first = name_list.pop(0)
+print(f"第一个元素是{first}")
+# 取出最后一个元素
+end = name_list.pop(-1)
+print(f"最后一个元素是{end}")
+# 查找元素31在列表中的下标位置
+location = name_list.index(31)
+print(f"31在列表中的位置为{location}")
+# 第一个元素是21
+# 最后一个元素是30
+# 31在列表中的位置为5
+```
+
+## 03 list（列表）的遍历
+### 1、while循环
+循环条件用下标来控制。
+
+代码示例：
+```python
+def list_while_func():
+    """
+    使用while循环遍历列表的演示函数
+    :return: None
+    """
+    my_list = ["I", "love", "myself"]
+    i = 0
+    while i < len(my_list):
+        print(my_list[i])
+        i += 1
+
+list_while_func()
+```
+
+### 2、for循环
+代码示例：
+```python
+def list_for_func():
+    """
+    使用for循环遍历列表的演示函数
+    :return: None
+    """
+    my_list = ["I", "love", "myself"]
+    i = 0
+    for i in my_list:
+        print(i)
+
+list_for_func()
+```
+
+## 04 数据容器：tuple（元组）
+### 1、元组的定义格式
+- 元组定义：定义元组使用**小括号**，且使用逗号隔开各个数据，数据可以是不同的数据类型。
+
+- 定义格式如下：
+```python
+# 定义元组字面量
+# (元素,元素,元素,元素......)
+# 定义元组变量
+# 变量名称 = (元素,元素,元素,元素......)
+# 定义空元组
+# 变量名称 = ()
+# 变量名称 = tuple()
+```
+
+代码示例：
+```python
+# 定义元组变量
+# 变量名称 = (元素,元素,元素,元素......)
+t1 = (1, "hello", True)
+# 定义空元组
+# 变量名称 = ()
+# 变量名称 = tuple()
+t2 = ()
+t3 = tuple()
+print(f"t1的类型是：{type(t1)}，内容是：{t1}")
+print(f"t2的类型是：{type(t2)}，内容是：{t2}")
+print(f"t3的类型是：{type(t3)}，内容是：{t3}")
+# t1的类型是：<class 'tuple'>，内容是：(1, 'hello', True)
+# t2的类型是：<class 'tuple'>，内容是：()
+# t3的类型是：<class 'tuple'>，内容是：()
+```
+
+- 注意：元组只有一个数据时，这个数据后面需要添加括号
+
+代码示例：
+```python
+t1 = (1, )
+t2 = (1)
+print(f"type_t1 = {type(t1)}, content_t1 = {t1}")
+print(f"type_t2 = {type(t2)}, content_t2 = {t2}")
+# type_t1 = <class 'tuple'>, content_t1 = (1,)
+# type_t2 = <class 'int'>, content_t2 = 1
+```
+可以发现t2不是元组
+
+- 元组同样支持嵌套
+- 元组的索引也是通过下标来索引，用中括号
+
+代码示例：
+```python
+t1 = ((1, 2, 3), (4, 5, 6))
+print(t1[0][0]) # 1
+```
+
+### 2、元组的特点
+列表是可以修改的，而**元组一旦定义就不可以修改**。
+
+当我们只需要在程序内封装数据，又不希望封装的数据被篡改，那么元组就非常合适了。
+
+### 3、元组的常见操作
+#### 查询功能
+语法：元组.index(元素)
+
+代码示例：
+```python
+t1 = (1, 2, 3, 4, 5, 6)
+location = t1.index(5)
+print("元素5的位置是",location) # 元素5的位置是 4
+```
+
+#### 统计元素个数
+语法：元组.count(元素)
+
+代码示例：
+```python
+t1 = (1, 2, 3, 4, 5, 6, 5)
+print(t1.count(5))
+# 2
+```
+
+#### 统计元素总数
+语法：len(元组)
+
+代码示例：
+```python
+t1 = (1, 2, 3, 4, 5, 6, 5)
+print(len(t1))
+# 7
+```
+
+#### 元组的遍历while
+代码示例：
+```python
+t1 = (1, 2, 3, 4, 5, 6, 5)
+i = 0
+while i < len(t1):
+    print(t1[i])
+    i += 1
+```
+
+#### 元组的遍历for
+代码示例：
+```python
+t1 = (1, 2, 3, 4, 5, 6, 5)
+for i in t1:
+    print(i)
+```
+
+#### 元组嵌套列表
+元组里面嵌套一个列表是可以修改列表中的元素的。
+
+代码示例：
+```python
+t1 = (1, 2, 3, [4, 5, 6, 5])
+t1[3][3] = 7
+print(t1) # (1, 2, 3, [4, 5, 6, 7])
+```
+
+## 05 数据容器：str（字符串）
+### 1、字符串的定义
+- 字符串是字符的容器，可以容纳任意数量的字符。
+- 字符串的下标索引同列表、元组一样
+   - 从前到后，下标从0开始
+   - 从后到前，下标从-1开始
+- 字符串同样是不可修改的数据容器
+
+代码示例：
+```python
+str1 = "aabbccdd"
+print(str1[2]) # b
+print(str1[-1]) # d
+```
+
+### 2、字符串的操作
+- 查找特定字符串的下标索引值
+
+语法：字符串.index(字符串)
+
+代码示例：
+```python
+str1 = "aabbccdd"
+print(str1.index("bbcc")) # 2
+```
+
+- 字符串的替换
+
+语法：字符串.replace(字符串1,字符串2)
+
+**注意**：这不是修改字符串本身，而是得到一个新字符串。
+
+代码示例：
+```python
+str1 = "aabbccdd"
+print(str1.replace("bbcc","ccdd")) # aaccdddd
+```
+
+- 字符串的分割
+
+语法：字符串.split(分隔符字符串)
+
+功能：按照指定的分隔符字符串，将字符串划分为多个字符串，并存入列表对象中。
+
+**注意**：字符串本身不变，而是得到一个列表对象。
+
+代码示例：
+```python
+str1 = "aa bb cc dd"
+print(str1.split(" ")) # ['aa', 'bb', 'cc', 'dd']
+```
+
+- 字符串的规整操作
+    - 语法：字符串.strip()，不含参数，去前后空格
+    - 语法：字符串.strip(字符串)，去前后指定字符串（按照单个字符进行移除）
+
+代码示例：
+```python
+str1 = "  aa bb cc dd  "
+str2 = "121aa bb cc dd111"
+print(str1.strip()) # aa bb cc dd
+print(str2.strip("12")) # aa bb cc dd
+```
+
+- 统计字符串中某字符串出现的次数
+
+代码示例：
+```python
+str1 = "aaabbbaaabbb"
+print(str1.count("aa")) # 2
+```
+
+- 统计字符串的长度
+
+代码示例：
+```python
+str1 = "aaabbbaaabbb"
+print(len(str1)) # 12
+```
+
+- 字符串的遍历：while和for
+
+## 06 数据容器（序列）的切片
+### 1、什么是序列
+- 序列是指：内容连续、有序，可使用下标索引的一类数据容器。
+- 列表、元组、字符串均可以视为序列。
+
+### 2、序列的切片操作
+- 切片：从一个序列中取出一个子序列。
+- 语法：序列[起始下标:结束下标:步长]
+    - 起始下标表示从何处开始，留空则表示从头开始
+    - 结束下标（不含）表示何处结束，留空则表示截取到结尾
+    - 步长表示依次取元素的间隔，步长为1表示一个个取元素，步长2表示每隔一个取一个元素......
+    - 步长为负数时，表示反向取元素，下标也要反向标记
+- 此操作不会影响序列本身，而是会得到一个新序列
+
+代码示例：
+```python
+# 对序列进行切片，从1开始，4结束，步长1
+my_list = [0, 1, 2, 3, 4, 5, 6]
+print(my_list[1:4:1]) # [1, 2, 3]
+
+# 对元组进行切片，从头开始，到最后结束，步长1
+my_touple = (0, 1, 2, 3, 4, 5, 6)
+print(my_touple[::]) # (0, 1, 2, 3, 4, 5, 6)
+
+# 对字符串进行切片，从头开始，到最后结束，步长2
+my_str = "01234567"
+print(my_str[::2]) # 0246
+
+# 对字符串进行切片，从最后开始，到头结束，步长-1
+my_str1 = "01234567"
+print(my_str1[::-1]) # 76543210 等同于序列反转
+
+# 对序列进行切片，从3开始，1结束，步长-1
+my_list1 = [0, 1, 2, 3, 4, 5, 6]
+print(my_list1[-4:-6:-1]) # [3, 2]
+print(my_list1[3:1:-1]) # [3, 2]
+
+# 对元组进行切片，从最后开始，到头结束，步长-2
+my_touple1 = (0, 1, 2, 3, 4, 5, 6)
+print(my_touple1[::-2]) # (6, 4, 2, 0)
+```
+
+## 07 数据容器：set（集合）
+### 1、集合的定义格式
+- 为什么要使用集合呢？
+    - 列表可以修改，支持重复元素且有序
+    - 元组、字符串不可修改，支持重复元素且有序
+    - 而集合不支持元素重复，内部无序
+
+基本语法：
+```python
+定义集合字面量
+# {元素1,元素2,元素3,...}
+# 定义集合变量
+# {元素1,元素2,元素3,...}
+# 定义空集合
+# 变量名 = set()
+```
+
+代码示例：
+```python
+# 定义集合变量
+my_set = {"I love", "myself", "myself"}
+# 定义空集合
+my_set_empty = set()
+
+print(f"my_set的内容是：{my_set}，类型是{type(my_set)}")
+print(f"my_set_empty的内容是：{my_set_empty}，类型是{type(my_set_empty)}")
+
+# my_set的内容是：{'I love' ,'myself'}，类型是<class 'set'>
+# my_set_empty的内容是：set()，类型是<class 'set'>
+```
+
+### 2、集合的特点
+集合不支持元素重复，内部无序
+
+### 3、集合的常见操作
+#### 修改
+- 添加新元素
+    - 语法：集合.add(元素)。将指定元素添加到集合内。
+    - 结果：集合本身被修改，添加了新元素
+
+代码示例：
+```python
+# 定义集合变量
+my_set = {"I love", "myself", "myself"}
+my_set.add("python")
+print(my_set) # {'python', 'myself', 'I love'}
+```
+
+- 移除元素
+    - 语法：集合.remove(元素)。将指定元素从集合中移除。
+    - 结果：集合本身被修改，移除了元素
+
+代码示例：
+```python
+# 定义集合变量
+my_set = {"I love", "myself", "myself", 'python'}
+my_set.remove("python")
+print(my_set) # {'myself', 'I love'}
+```
+
+- 从集合中随机取出元素
+    - 语法：集合.pop()，从集合中随机取出元素。
+    - 结果：集合本身被修改，移除了元素，返回值是元素
+
+代码示例：
+```python
+# 定义集合变量
+# 定义集合变量
+my_set = {"I love", "myself", "myself", 'python'}
+element = my_set.pop()
+print(element) # I love
+print(my_set) # {'I love', 'myself'}
+```
+
+- 清空集合
+    - 语法：集合.clear()
+    - 结果：集合清空
+
+代码示例：
+```python
+# 定义集合变量
+my_set = {"I love", "myself", "myself", 'python'}
+my_set.clear()
+print(my_set) # set()
+```
+
+- 取两个集合的差集
+    - 语法：集合1.difference(集合2)，取出集合1和集合2的差集（集合1有而集合2没有的）
+    - 结果：得到1个新集合，集合1和集合2不变。
+
+代码示例：
+```python
+# 定义集合变量
+my_set1 = {"I love", "myself", "myself", 'python'}
+my_set2 = {"I love",  'python'}
+print(my_set1.difference(my_set2)) # {'myself'}
+print(my_set1) # {'myself', 'I love', 'python'}
+print(my_set2) # {'I love', 'python'}
+```
+
+- 消除两个集合的差集
+    - 语法：集合1.difference_update(集合2)，在集合1中，删除和集合2相同的内容
+    - 结果：集合1被修改，集合2不变
+
+代码示例：
+```python
+# 定义集合变量
+my_set1 = {"I love", "myself", "myself", 'python'}
+my_set2 = {"I love",  'python'}
+my_set1.difference_update(my_set2)
+print(my_set1) # {'myself'}
+print(my_set2) # {'I love', 'python'}
+```
+
+- 合并两个集合
+    - 语法：集合1.union(集合2)
+    - 结果：得到1个新集合，集合1和集合2不变
+
+代码示例：
+```python
+# 定义集合变量
+my_set1 = {"I love", "myself"}
+my_set2 = {"I love",  'python'}
+print(my_set1.union(my_set2)) # {'myself', 'I love', 'python'}
+print(my_set1) # {'myself', 'I love'}
+print(my_set2) # {'I love', 'python'}
+```
+
+- 统计集合元素数量
+    - 语法：len(集合)
+
+代码示例：
+```python
+# 定义集合变量
+my_set1 = {"I love", "myself", "myself"}
+print(len(my_set1)) # 2
+```
+
+#### 集合的遍历
+集合不支持下标索引，所以不能使用while循环，但是可以用for循环。
+
+代码示例：
+```python
+# 定义集合变量
+my_set1 = {"I love", "myself", "myself"}
+for x in my_set1:
+    print(x)
+    # I love
+    # myself
+```
+
+## 08 数据容器：dict（字典、映射）
+
+## 09 数据容器的通用操作
+
+## 10 综合案例
