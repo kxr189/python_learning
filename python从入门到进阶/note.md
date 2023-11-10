@@ -2295,6 +2295,7 @@ print(type(f)) # <class '_io.TextIOWrapper'>
 - 读操作相关方法
     - 文件对象.read(num)
         - num表示要从文件中读取的数据的长度（单位是字符），如果没有传入num，则表示读取文件中所有的数据。
+        - 读取后的数据类型是**字符串**
     - 文本对象.readlines()
         - 可以按照行的方式将文件中的内容进行一次性读取，返回的是一个列表。其中每一行的数据为一个元素。
 
@@ -2358,8 +2359,173 @@ with open("python.txt", "r") as f:
 # 通过该操作可以自动关闭文件
 ```
 
+## 文件读取的课后习题练习
+<img src="\img\文件读取操作-单词记数.jpg" alt="文件读取操作-单词记数" title="文件读取操作-单词记数">
+
+代码示例：
+```python
+f = open("python.txt", "r", encoding="UTF-8")
+count = 0
+for line in f:
+    line = line.strip("\n")
+    words = line.split(" ")
+    count += words.count("itheima")
+print(count)
+f.close()
+```
+
 ## 03 文件的写入
+- 写入操作的三个步骤：
+    - 1、open()打开文件
+    - 2、write()写入内容
+    - 3、flush()内容刷新
+
+只调用write的时候内容并未真正写入到文件中，而是存储在缓冲区中，需要调用flush，内容才会真正写入文件。
+
+代码示例：
+```python
+f = open("python.txt", "w")
+f.write("helloworld")
+f.flush()
+f.close()
+# 此时文件中只有helloworld，不会有其他内容，因为“w”模式会将文件内容全部清空
+```
+- w模式会在第一次写入数据的时候清空文件原有内容。
+- 注意：其实close()是内置flush功能的。
 
 ## 04 文件的追加
+代码示例：
+```python
+f = open("text.txt", "a")
+f.write("\nhelloworld111")
+f.flush()
+f.close()
+```
 
 ## 05 文件操作综合案例
+<img src="\img\文件操作综合案例.jpg" alt="文件操作综合案例" title="文件操作综合案例">
+<img src="\img\文件操作综合案例1.jpg" alt="文件操作综合案例" title="文件操作综合案例">
+代码示例：
+```python
+f = open("text.txt", "r", encoding="UTF-8")
+g = open("text.txt.bak", "w", encoding="UTF-8")
+for line in f:
+    line = line.strip("\n")
+    words = line.split(",")
+    if words.count("测试") == 0:
+        g.write(line)
+        g.write("\n")
+f.close()
+g.close()
+```
+
+# 第九章 Python异常、模块与包
+## 01 了解异常
+- 什么是异常？
+- 当检测到一个错误时，Python解释器就无法继续执行了，反而会出现了一些错误的指示，这就是所谓的**异常**，也就额是BUG
+
+## 02 异常的捕获方法
+- 异常处理(捕获异常)：在力所能及的范围内，对可能出现的bug进行提前准备、提前处理。
+- 捕获异常的作用在于：提前假设某处会出现异常，做好提前准备，当真的出现异常的时候，可以有后续手段。
+
+基本语法：
+```python
+try:
+    可能发生错误的代码
+except:
+    如果出现错误执行的代码
+```
+
+快速入门，代码示例：
+```python
+try:
+    f = open("linux.txt", 'r')
+except:
+    f = open('linux.txt', 'w')
+```
+
+- 捕获指定异常
+
+基本语法：
+```python
+try:
+    print(name)
+except NameError as e:
+    print('name变量名称未定义错误')
+```
+以上代码指定捕获NameError异常。
+
+```python
+try:
+    1/0
+except NameError as e:
+    print('name变量名称未定义错误')
+```
+而在以上代码中，1/0并不属于NameError异常，因此不会被捕获，编译时直接报错。
+
+```python
+try:
+    name
+except NameError as e:
+    print('name变量名称未定义错误')
+    print(e) # e存储的是异常信息
+```
+as后面的变量用于存储异常信息。
+
+- 捕获多个异常
+    - 当捕获多个异常时，可以把要补货的异常类型的名字放到except之后，并使用元组的方式进行书写。
+
+代码示例：
+```python
+try:
+    print(1/0)
+except (NameError, ZeroDivisionError):
+    print('ZeroDivision错误...')
+```
+
+- 捕获所有异常(和第一种方法效果一致)
+
+代码示例：
+```python
+try:
+    print(1/0)
+except Exception as e:
+    print('出现异常了')
+```
+
+- 异常else：else表示的是如果没有异常要执行的代码。
+
+```python
+try:
+    print(1)
+except Exception as e:
+    print(e)
+else:
+    print('没有异常时执行的代码')
+```
+
+- 异常的finally：无论是否异常都要执行的代码
+
+```python
+try:
+    print(1)
+except Exception as e:
+    print(e)
+else:
+    print('没有异常时执行的代码')
+finally:
+    print('无论异不异常都要执行的代码')
+```
+
+## 03 异常综合案例
+
+
+## 04 Python模块
+
+
+## 05 Python包
+
+
+## 06 安装第三方Python包
+
+
