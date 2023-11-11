@@ -2517,10 +2517,41 @@ finally:
     print('无论异不异常都要执行的代码')
 ```
 
-## 03 异常综合案例
+## 03 异常的传递
+异常是具有传递性的。
 
+代码示例：
+```python
+def fun1():
+    print("fun1开始执行")
+    num = 1/0
+    print("fun1结束执行")
+
+def fun2():
+    print("fun2开始执行")
+    fun1()
+    print("fun2结束执行")
+
+def main():
+    try:
+        fun2()
+    except Exception as e:
+        print(f"出现异常了，异常信息是{e}")
+
+main()
+
+# fun2开始执行
+# fun1开始执行
+# 出现异常了，异常信息是division by zero
+```
 
 ## 04 Python模块
+### 模块的导入
+- Python模块是一个Python文件，以.py结尾，
+- 模块能定义函数，类和变量，模块中也包含了可执行的代码。
+- 模块的作用：
+
+### 自定义模块
 
 
 ## 05 Python包
