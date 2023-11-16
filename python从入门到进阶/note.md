@@ -3174,3 +3174,149 @@ file_utils.print_file_info("bill.txt")
 ```
 
 {% endspoiler %}
+
+# 第十章 python基础综合案例
+## 01 案例介绍
+<img src="\img\python从入门到进阶（一）\第十章综合案例开发图1.jpg" alt="第十章综合案例开发图1" title="第十章综合案例开发图1">
+<img src="\img\python从入门到进阶（一）\第十章综合案例开发图2.jpg" alt="第十章综合案例开发图2" title="第十章综合案例开发图2">
+<img src="\img\python从入门到进阶（一）\第十章综合案例开发图3.jpg" alt="第十章综合案例开发图3" title="第十章综合案例开发图3">
+
+## 02 json数据格式
+### 什么是json
+- JSON是一种轻量级的数据交互格式，可以按照JSON指定的格式去组织和封装数据
+- JSON本质上是一个带有特定格式的字符串
+- 主要功能：JSON就是一种在各个编程语言中流通的数据格式，负责**不同编程语言中的数据传递和交互**，类似于
+    - 国际通用语言——英语
+    - 中国56个名族不同地区通用语言——普通话
+- <font color=#FF000 ><font size=3 >**简言之，JSON就是用于不同编程语言中的数据中转的一种数据格式**</font></font>
+
+### 使用json进行数据转化
+- json数据的格式可以是字典，也可以是内嵌字典的列表。
+
+```python
+# json的数据格式可以是
+{"name":"admin","age":18}
+# json的数据格式还可以是
+[{"name":"admin","age":18}, {"name":"kxr","age":18}]
+```
+
+所谓的json就是把python中的字典转化为字符串，或者把内嵌字典的列表转化为字符串。
+
+- python数据与json数据的相互转化
+    - json字符串只能内单引号外双引号
+
+代码示例：
+```python
+# 使用内置python模块json
+import json
+# 准备列表
+data1 = [{"name":"小儿", "age":11},{"name":"大二","age":12}]
+# 转化为json
+json_str = json.dumps(data1, ensure_ascii=False) # 不写中文就不用写第二个参数
+# 内容以及变量类型打印
+print(type(json_str))
+print(json_str)
+# <class 'str'>
+# [{"name": "小儿", "age": 11}, {"name": "大二", "age": 12}]
+
+# 准备字典
+data2 = {"name":"kxr", "age":12}
+# 转化为json
+json_dict = json.dumps(data2)
+# 内容以及变量类型打印
+print(type(json_dict))
+print(json_dict)
+# <class 'str'>
+# {"name": "kxr", "age": 12}
+
+# 将json字符串转换为python列表
+s = '[{"name": "小儿", "age": 11}, {"name": "大二", "age": 12}]'
+python_list = json.loads(s)
+print(type(python_list))
+print(python_list)
+# <class 'list'>
+# [{'name': '小儿', 'age': 11}, {'name': '大二', 'age': 12}]
+# 转换为python字典同理
+# 转换为python字典同理
+```
+
+## 03 pyecharts模块介绍
+- 如果要做出数据可视化效果图，可以借助pyecharts模块来完成。
+- pyecharts是由百度团队开发的，因此有着中文文档可供查询
+    - 官方网站“pyecharts.org”
+    - 官方示例“gallery.pyecharts.org”
+
+- 安装pyecharts第三方包：“pip install pyecharts”
+
+## 04 pyecharts快速入门
+### 构建基础折线图
+代码示例：
+```python
+# 导入line功能构建折线图对象
+from pyecharts.charts import Line
+# 得到折线图对象
+line = Line()
+# 添加x轴数据
+line.add_xaxis(["中国", "美国", "英国"])
+# 添加y轴数据
+line.add_yaxis("GDP", [30,20,10])
+# 通过render代码，将代码生成为图像
+line.render()
+```
+折线图如下：
+<img src="\img\python从入门到进阶（一）\10-折线图.png" alt="10-折线图" title="10-折线图">
+
+### 使用全局配置项设置属性
+- pyecharts模块中有很多配置选项，常用的有两个类别的选项
+    - 全局配置选项
+    - 系列配置选项
+
+- set_global_opts方法
+    - 这里的全局配置选项可以通过该方法进行配置，相应的选项和功能如下：
+    - TitleOpts：标题配置项
+    - LegendOpts：图例配置项
+    - ToolboxOpts：工具箱配置项
+    - VisualMapOpts：视觉映射配置项
+    - TooltipOpts：提示框配置项
+    - DataZoomOpts：区域缩放配置项
+
+代码示例：
+```python
+# 导入line功能构建折线图对象
+from pyecharts.charts import Line
+from pyecharts.options import TitleOpts,LegendOpts,ToolboxOpts,VisualMapOpts
+# 得到折线图对象
+line = Line()
+# 添加x轴数据
+line.add_xaxis(["中国", "美国", "英国"])
+# 添加y轴数据
+line.add_yaxis("GDP", [30,20,10])
+# 设置全局配置项
+line.set_global_opts(
+    # 居中显示，距离底部有1%的距离
+    title_opts=TitleOpts(title="GDP展示", pos_left="center", pos_bottom="1%"),
+    # 控制图例，选择是否展示
+    legend_opts=LegendOpts(is_show=True),
+    # 工具箱，选择是否展示
+    toolbox_opts=ToolboxOpts(is_show=True),
+    # 视觉映射，选择是否展示
+    visualmap_opts=VisualMapOpts(is_show=True)
+)
+# 通过render代码，将代码生成为图像
+line.render()
+
+```
+折线图如下：
+<img src="\img\python从入门到进阶（一）\10-GDP展示.png" alt="10-GDP展示" title="10-GDP展示">
+
+- <font color=#FF000 ><font size=5 >**在官网中可以找到其他全局配置项。**</font></font>
+
+## 05 数据处理
+通过json模块对数据进行处理。
+
+
+
+
+## 06 创建折线图
+
+
