@@ -3311,12 +3311,68 @@ line.render()
 
 - <font color=#FF000 ><font size=5 >**在官网中可以找到其他全局配置项。**</font></font>
 
-## 05 数据处理
+## 05 数据处理、创建折线图
 通过json模块对数据进行处理。
 
+代码示例：
+{% spoiler "点击显/隐内容" %}
+```python
+"""
+演示可视化需求1：折线图开发
+"""
+import json
+from pyecharts.charts import Line
+from pyecharts.options import TitleOpts,LabelOpts
+# 处理数据 依次是美国、日本、印度
+f_us = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/折线图数据/美国.txt", "r", encoding="UTF-8")
+us_data = f_us.read()
+f_jp = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/折线图数据/日本.txt", "r", encoding="UTF-8")
+jp_data = f_jp.read()
+f_id = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/折线图数据/印度.txt", "r", encoding="UTF-8")
+id_data = f_id.read()
+# 去掉不符合JSON规范的开头和结尾
+us_data = us_data.replace("jsonp_1629344292311_69436(", "")
+us_data = us_data[:-2]
+jp_data = jp_data.replace("jsonp_1629350871167_29498(", "")
+jp_data = jp_data[:-2]
+id_data = id_data.replace("jsonp_1629350745930_63180(", "")
+id_data = id_data[:-2]
+# JOSN转Python字典
+us_dict = json.loads(us_data)
+jp_dict = json.loads(jp_data)
+id_dict = json.loads(id_data)
+# 取出trend key
+us_trend_data = us_dict['data'][0]['trend']
+jp_trend_data = jp_dict['data'][0]['trend']
+id_trend_data = id_dict['data'][0]['trend']
+# 获取日期数据，用于x轴，取2020年（到314下标结束）
+us_x_data = us_trend_data['updateDate'][:314]
+jp_x_data = jp_trend_data['updateDate'][:314]
+id_x_data = id_trend_data['updateDate'][:314]
+# 获取确诊数据，用于y轴，取2020年（到314下标结束）
+us_y_data = us_trend_data['list'][0]['data'][:314]
+jp_y_data = jp_trend_data['list'][0]['data'][:314]
+id_y_data = id_trend_data['list'][0]['data'][:314]
+# 生成图表
+line = Line() # 构建折线图对象
+line.add_xaxis(us_x_data) # x轴是共用的
+line.add_yaxis("美国确诊人数",us_y_data, label_opts=LabelOpts(is_show=False)) # 添加美国y轴数据
+line.add_yaxis("日本确诊人数",jp_y_data, label_opts=LabelOpts(is_show=False)) # 日本
+line.add_yaxis("印度确诊人数",id_y_data, label_opts=LabelOpts(is_show=False)) # 印度
+# 设置全局配置项
+line.set_global_opts(
+    # 居中显示，距离底部有1%的距离
+    title_opts=TitleOpts(title="2020年美日印三国确诊人数对比折线图", pos_left="center", pos_bottom="1%")
+)
+line.render() # 使用render方法生成图表
+# 关闭文件
+f_us.close()
+f_jp.close()
+f_id.close()
+```
+{% endspoiler %}
 
+折线图如下：
+<img src="\img\python从入门到进阶（一）\10-确诊人数折线图.png" alt="10-确诊人数折线图" title="10-确诊人数折线图">
 
-
-## 06 创建折线图
-
-
+# 第十一章 python基础综合案例——数据可视化——地图可视化
