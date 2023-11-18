@@ -1,25 +1,23 @@
-# python从入门到进阶
+---
+title: python从入门到进阶（一）—— python语言基础入门
+tags: [编程语言学习,python]
+categories: [python,编程语言学习]
+---
 
 python从入门到进阶。
 python简洁高效、应用场景丰富。
 
 <!-- more -->
 
-```mermaid
-graph LR
-python从入门到进阶--> python语言基础入门
-python从入门到进阶--> python语言高阶加强
-python从入门到进阶--> 大数据分析PySpark
-```
+{% pullquote mindmap mindmap-md %}
 
-```mermaid
-graph LR
-python从入门到进阶--> python语言基础入门
-python从入门到进阶--> python语言高阶加强
-python从入门到进阶--> 大数据分析PySpark
-```
+- python从入门到进阶
+  - python语言基础入门
+  - python语言高阶加强
+  - 大数据分析PySpark
+    {% endpullquote %}
 
-# 第一章 你好python
+# 第一章
 
 ## 01 初始python
 
@@ -101,38 +99,20 @@ hello world
 > 概念：在代码中，被**写下来的固定的值**，称之为**字面量**。
 
 常用的值类型：
-python中常用的有**6**种值（数据）类型
+python中常用的
 
 <table>
     <tr>
-        <th>类型</th><th>描述</th><th>说明</th>
+        <th>班级</th><th>课程</th><th>平均分</th>
     </tr>
     <tr>
-        <td rowspan="4">数字number</td><td>整数int</td><td>如：10，-10</td>
+        <td rowspan="3">1班</td><td>语文</td><td>95</td>
     </tr>
     <tr>
-        <td>浮点数float</td><td>如：13.14</td>
+        <td>数学</td><td>96</td>
     </tr>
     <tr>
-        <td>复数complex</td><td>如：4+3j</td>
-    </tr>
-    <tr>
-        <th>布尔bool</th><th>true 和 false</th>
-    </tr>
-    <tr>
-        <th>字符串string</th><th>描述文本的一种数据类型（需要加上双引号或者单引号）</th><th>字符串由任意数量的字符组成</th>
-    </tr>
-    <tr>
-        <th>列表list</th><th>有序的可变序列</th><th>python中使用最频繁的数据类型，可有序记录一堆数据</th>
-    </tr>
-    <tr>
-        <th>元组tuple</th><th>有序的不可变序列</th><th>可有序记录一堆不可变的python数据集合</th>
-    </tr>
-    <tr>
-        <th>集合set</th><th>无序不重复集合</th><th>可无序记录一堆不重复的python数据集合</th>
-    </tr>
-    <tr>
-        <th>字典dictionary</th><th>无序key-value集合</th><th>可无序记录一堆key-value型的python数据集合</th>
+        <td>英语</td><td>92</td>
     </tr>
 </table>
 
@@ -1265,7 +1245,7 @@ print(num) # 200
 
 ## 08 综合案例
 
-<img src="\img\python-函数入门案例图1.jpg" alt="黑马ATM" title="黑马ATM">
+<img src="\img\python从入门到进阶（一）\python-函数入门案例图1.jpg" alt="黑马ATM" title="黑马ATM">
 
 代码示例：
 {% spoiler "点击显/隐内容" %}
@@ -1367,7 +1347,6 @@ while True:
   # 变量名称 = []
   # 变量名称 = list()
   ```
-
 - 注意事项：列表可以一次性存储多个数据，且<font color=#FF000 ><font size=3 >**可以为不同数据类型，支持嵌套。**</font></font>
 
 代码示例：
@@ -1389,13 +1368,13 @@ print(type(name_list2))
 ### 2、列表的索引
 
 - 列表的下标索引：
-  代码示例：
   
-  ```python
-  name_list = ['I', 'love', 'kxr']
-  print(name_list)
-  print(type(name_list))
-  ```
+代码示例：
+  
+```python
+name_list = ['I', 'love', 'kxr']
+print(name_list)
+print(type(name_list))
 
 # 下标索引
 
@@ -1405,6 +1384,7 @@ print(name_list[2])
 
 ```
 - 列表还可以进行反向索引：最后一个元素标记为-1，倒数第二个标记位-2，依次往前递减
+
 代码示例：
 ```python
 name_list = ['I', 'love', 'kxr']
@@ -1418,13 +1398,12 @@ print(name_list[-1])
 ```
 
 - 嵌套列表的下标索引
-  代码示例：
-  
-  ```python
-  name_list = ['I', 'love', [1, 2, 3]]
-  print(name_list)
-  print(type(name_list))
-  ```
+
+代码示例： 
+```python
+name_list = ['I', 'love', [1, 2, 3]]
+print(name_list)
+print(type(name_list))
 
 # 下标索引
 
@@ -1454,11 +1433,7 @@ print(name_list[2][2])
 
 #### 查询的功能（方法）
 查找某元素的下标，如果找不到，就报错ValueError
-
-注意：如该元素有多个，则找第一个
-
 语法：列表.index(元素)
-
 代码示例：
 ```python
 name_list = ['I', 'love', [1, 2, 3]]
@@ -1472,11 +1447,8 @@ print(index) # 2
 #### 修改功能（方法）
 
 修改特定位置的元素值
-
 语法：列表[下标] = 值
-
 注意：正反下标均可以。
-
 代码示例：
 
 ```python
@@ -1489,7 +1461,6 @@ print(name_list) # ['I', 'O', [1, 2, 3]]
 #### 插入元素
 
 语法：列表.insert(下标，元素)，在指定的下标位置，插入指定的元素
-
 代码示例：
 
 ```python
@@ -1502,7 +1473,6 @@ print(name_list) # ['I', 2, 'love', [1, 2, 3]]
 #### 追加元素
 
 语法：列表.append(元素)，将指定元素追加到列表的尾部。
-
 代码示例：
 
 ```python
@@ -1514,7 +1484,6 @@ print(name_list) # ['I','love', [1, 2, 3], 2]
 
 还可以追加一批元素：
 语法：列表.extend(其他数据容器)，将其他数据容器的内容取出，依次追加到列表尾部。
-
 代码示例：
 
 ```python
@@ -1525,7 +1494,6 @@ print(name_list) # ['I','love', [1, 2, 3], 1, 2, 3]
 ```
 
 注意：append和extend都可以追加一批元素，但append是将这批追加的元素作为整体追加到列表尾部。
-
 代码示例：
 
 ```python
@@ -1538,42 +1506,37 @@ name_list1.append([1,2,3])
 print(name_list1) # ['I','love', [1, 2, 3], [1, 2, 3]]
 ```
 
-#### 删除或取出元素
+#### 清空列表
 
 - 语法1：del列表[下标]
 - 语法2：列表.pop(下标) 将元素取出并返回
-
-代码示例：
-
-```python
-name_list = ['I', 'love', [1, 2, 3]]
-name_list1 = ['I', 'love', [1, 2, 3]]
-# 删除元素
-del name_list[2]
-print(name_list)
-result = name_list1.pop(2)
-print(name_list1,result)
-# ['I', 'love']
-# ['I', 'love'] [1, 2, 3]
-```
-
+  代码示例：
+  
+  ```python
+  name_list = ['I', 'love', [1, 2, 3]]
+  name_list1 = ['I', 'love', [1, 2, 3]]
+  # 删除元素
+  del name_list[2]
+  print(name_list)
+  result = name_list1.pop(2)
+  print(name_list1,result)
+  # ['I', 'love']
+  # ['I', 'love'] [1, 2, 3]
+  ```
 - 删除某个元素在列表中的第一个匹配项
-
-语法：列表.remove(元素)
-
-代码示例：
-
-```python
-name_list = ['I', 'love', 'I',[1, 2, 3]]
-# 删除元素
-name_list.remove('I')
-print(name_list) # ['love', 'I', [1, 2, 3]]
-```
+  语法：列表.remove(元素)
+  代码示例：
+  
+  ```python
+  name_list = ['I', 'love', 'I',[1, 2, 3]]
+  # 删除元素
+  name_list.remove('I')
+  print(name_list) # ['love', 'I', [1, 2, 3]]
+  ```
 
 #### 清空列表
 
 语法：列表.clear()
-
 代码示例：
 
 ```python
@@ -1586,7 +1549,6 @@ print(name_list) # []
 #### 统计元素数量
 
 语法：列表.count(元素)
-
 代码示例：
 
 ```python
@@ -1599,7 +1561,6 @@ print(num) # 1
 #### 统计列表元素总数
 
 语法：len(列表)
-
 代码示例：
 
 ```python
@@ -1611,7 +1572,7 @@ print(num) # 10
 
 案例练习：
 
-<img src="\img\python-列表课后练习.jpg" alt="常用功能练习" title="常用功能练习">
+<img src="\img\python从入门到进阶（一）\python-列表课后练习.jpg" alt="常用功能练习" title="常用功能练习">
 
 代码示例：
 
@@ -2341,9 +2302,8 @@ print(len(stu_score)) # 3
 - str(容器)
 - set(容器)
 
-{% pullquote mindmap mindmap-md %}
-
 代码示例：
+{% spoiler "点击显/隐内容" %}
 
 ```python
 my_list = [1, 2, 3]
@@ -2401,7 +2361,7 @@ print(f"字典转集合的结果是：{set(my_dict)}")
 # 字典转集合的结果是：{'a', 'c'}
 ```
 
-{% endpullquote %}
+{% endspoiler %}
 
 ### 4、容器通用排序功能
 
@@ -2493,11 +2453,29 @@ user_info("小明", gender="男", age=11)
   - 关键字传递
     - 参数是“键=值”的形式，所有参数合并为一个字典
 
-代码示例：
+位置传递——代码示例：
 
 ```python
+def user_info(*arg):
+    print(arg)
 
+user_info('Tom')
+user_info('Tom', 18)
+# ('Tom',)
+# ('Tom', 18)
 ```
+注意：传进的所有参数都会被arg变量手机，它会根据传进参数的位置合并成一个元组，args是元组类型，这就是位置传递。
+
+关键字传递——代码示例：
+
+```python
+def user_info(**kwargs):
+    print(kwargs)
+
+user_info(Tom=11, Jam=110)
+# {'Tom': 11, 'Jam': 110}
+```
+注意：参数是“键=值”形式，所有的“键=值”的形式都会被kwargs接受，组成字典。
 
 ### 缺省参数
 
@@ -2601,10 +2579,9 @@ print(type(f)) # <class '_io.TextIOWrapper'>
 
 - 读操作相关方法
   - 文件对象.read(num)
-    - num表示要从文件中读取的数据的长度（单位是字符），如果没有传入num，则表示读取文件中所有的数据。
-    - 读取后的数据类型是**字符串**
+    - num表示要从文件中读取的数据的长度（单位是字符），如果没有传入num，则表示读取文件中所有的数据；**返回的是字符串**。
   - 文本对象.readlines()
-    - 可以按照行的方式将文件中的内容进行一次性读取，返回的是一个列表。其中每一行的数据为一个元素。
+    - 可以按照行的方式将文件中的内容进行一次性读取，**返回的是一个列表**。其中每一行的数据为一个元素。
 
 代码示例：
 
@@ -2627,7 +2604,7 @@ print(f"读取文件的全部行，结果为：{lines}，类型为{type(lines)}"
 ```
 
 - 文件对象.readline()
-  - 一次读取一行内容
+  - 一次读取一行内容，**返回的是字符串**
 
 代码示例：
 
@@ -2671,23 +2648,6 @@ with open("python.txt", "r") as f:
 # 通过该操作可以自动关闭文件
 ```
 
-## 文件读取的课后习题练习
-
-<img src="\img\文件读取操作-单词记数.jpg" alt="文件读取操作-单词记数" title="文件读取操作-单词记数">
-
-代码示例：
-
-```python
-f = open("python.txt", "r", encoding="UTF-8")
-count = 0
-for line in f:
-    line = line.strip("\n")
-    words = line.split(" ")
-    count += words.count("itheima")
-print(count)
-f.close()
-```
-
 ## 03 文件的写入
 
 - 写入操作的三个步骤：
@@ -2723,8 +2683,8 @@ f.close()
 
 ## 05 文件操作综合案例
 
-<img src="\img\文件操作综合案例.jpg" alt="文件操作综合案例" title="文件操作综合案例">
-<img src="\img\文件操作综合案例1.jpg" alt="文件操作综合案例" title="文件操作综合案例">
+<img src="\img\python从入门到进阶（一）\文件操作综合案例.jpg" alt="文件操作综合案例" title="文件操作综合案例">
+<img src="\img\python从入门到进阶（一）\文件操作综合案例1.jpg" alt="文件操作综合案例" title="文件操作综合案例">
 代码示例：
 ```python
 f = open("text.txt", "r", encoding="UTF-8")
