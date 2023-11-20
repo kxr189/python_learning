@@ -469,7 +469,9 @@ hello''
 
 ### 2、字符串的拼接
 
-如果有多个字符串字面量，可以通过+号拼接为一个字符串
+
+<font color=#FF0000 ><font size=3 >**如果有多个字符串字面量，可以通过+号拼接为一个字符串**</font></font>
+
 
 ```python
 # I love myself
@@ -3336,3 +3338,326 @@ f_id.close()
 <img src="\img\python从入门到进阶（一）\10-确诊人数折线图.png" alt="10-确诊人数折线图" title="10-确诊人数折线图">
 
 # 第十一章 python基础综合案例——数据可视化——地图可视化
+## 01 基础地图使用
+使用pyecharts进行地图构建。
+
+代码示例：
+{% spoiler "点击显/隐内容" %}
+```python
+"""
+演示地图可视化的基本使用
+"""
+from pyecharts.charts import Map
+from pyecharts.options import VisualMapOpts
+
+# 准备地图对象
+map = Map()
+# 准备数据 使用列表存储，列表中是元组
+data = [
+    ("北京市", 99),
+    ("上海市", 199),
+    ("湖南省", 299),
+    ("台湾省", 399),
+    ("广东省", 499),
+]
+# 添加数据
+map.add("测试地图", data, "china") # 名称、数据、地图类型
+# 设置全局选项
+map.set_global_opts(
+    visualmap_opts=VisualMapOpts( # 设置地图视觉指示器
+        is_show=True, 
+        is_piecewise=True, # 开启手动校准范围
+        pieces=[ # 手动指定分段 3段
+            {"min":1, "max":9, "label":"1-9人", "color":"#CCFFFF"},
+            {"min":10, "max":99, "label":"10-99人", "color":"#FFFF99"},
+            {"min":99, "max":499, "label":"99-499人", "color":"#FF9966"},
+            {"min":499, "max":999, "label":"499-999人", "color":"#FF6666"},
+            {"min":1000, "max":9999, "label":"1000-9999人", "color":"#CC3333"},
+            {"min":10000, "label":"10000以上", "color":"#990033"}
+        ]
+    )
+)
+# 绘图
+map.render()
+```
+{% endspoiler %}
+
+地图示例：
+<img src="\img\python从入门到进阶（一）\11-可视化地图1.png" alt="可视化地图1" title="可视化地图1">
+
+## 02 疫情地图——国内疫情地图
+代码示例：
+{% spoiler "点击显/隐内容" %}
+```python
+"""
+演示全国疫情可视化地图开发
+"""
+import json
+from pyecharts.charts import Map
+from pyecharts.options import *
+# 读取数据文件
+f = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/地图数据/疫情.txt", "r", encoding="UTF-8")
+data = f.read()
+# 关闭文件
+f.close()
+# 取到各省份数据
+# 将json转换为Python字典
+data_dict = json.loads(data)
+# 从字典中取出省份数据
+province_data_list = data_dict["areaTree"][0]["children"]
+# 从省份数据取到省份名称和数据组装成元组，再将所有省份封装到列表内
+data_list = [] # 绘图时用到的数据列表
+for province_data in province_data_list:
+    province_name = province_data["name"] # 省份名称
+    province_confirm = province_data["total"]["confirm"] # 确诊人数
+    if province_name == '新疆维吾尔自治区' or province_name == '内蒙古自治区' or province_name == '宁夏回族自治区' \
+            or province_name == '西藏自治区' or province_name == '广西壮族自治区' or province_name == '北京市' \
+            or province_name == '天津市' or province_name == '上海市' or province_name == '重庆市':
+        data_list.append((province_name, province_confirm))
+    else:
+        data_list.append((province_name+'省', province_confirm))
+# 创建地图对象
+map = Map()
+# 添加数据
+map.add("各省份确诊人数", data_list, "china")
+# 添加全局选项
+map.set_global_opts(
+    title_opts=TitleOpts(title="全国疫情地图"),
+    visualmap_opts=VisualMapOpts(
+        is_show=True, # 是否显示
+        is_piecewise=True, # 是否分段
+        pieces=[
+            {"min":1, "max":99, "label":"1-99人确诊", "color":"#CCFFFF"},
+            {"min":100, "max":999, "label":"100-999人确诊", "color":"#FFFF99"},
+            {"min":1000, "max":4999, "label":"1000-9999人确诊", "color":"#FF9966"},
+            {"min":5000, "max":9999, "label":"5000-9999人确诊", "color":"#FF6666"},
+            {"min":10000, "max":99999, "label":"10000-99999人确诊", "color":"#CC3333"},
+            {"min":100000, "label":"超过100000人确诊", "color":"#990033"}
+        ]
+    )
+)
+# 绘图
+map.render("全国疫情地图.html")
+```
+{% endspoiler %}
+
+地图示例：
+<img src="\img\python从入门到进阶（一）\11-可视化地图2.png" alt="可视化地图2" title="可视化地图2">
+
+## 03 疫情地图——省级疫情地图
+代码示例：
+{% spoiler "点击显/隐内容" %}
+```python
+"""
+演示河南省疫情可视化地图开发
+"""
+import json
+from pyecharts.charts import Map
+from pyecharts.options import *
+# 读取数据文件
+f = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/地图数据/疫情.txt", "r", encoding="UTF-8")
+data = f.read()
+# 关闭文件
+f.close()
+# 取到各省份数据
+# 将json转换为Python字典
+data_dict = json.loads(data)
+# 从字典中取出河南省各个城市的数据
+cities_data = data_dict["areaTree"][0]["children"][3]["children"]
+# 从数据取到各个城市名称和数据组装成元组，再将所有数据封装到列表内
+data_list = [] # 绘图时用到的数据列表
+for city_data in cities_data:
+    city_name = city_data["name"]  # 城市名称
+    city_confirm = city_data["total"]["confirm"] # 确诊人数
+    data_list.append((city_name+ "市", city_confirm))
+# 手动添加济源市的数据
+data_list.append(("济源市", 5))
+# 创建地图对象
+map = Map()
+# 添加数据
+map.add("河南省疫情分布", data_list, "河南")
+# 添加全局选项
+map.set_global_opts(
+    title_opts=TitleOpts(title="河南省疫情地图"),
+    visualmap_opts=VisualMapOpts(
+        is_show=True, # 是否显示
+        is_piecewise=True, # 是否分段
+        pieces=[
+            {"min":1, "max":99, "label":"1-99人确诊", "color":"#CCFFFF"},
+            {"min":100, "max":999, "label":"100-999人确诊", "color":"#FFFF99"},
+            {"min":1000, "max":4999, "label":"1000-9999人确诊", "color":"#FF9966"},
+            {"min":5000, "max":9999, "label":"5000-9999人确诊", "color":"#FF6666"},
+            {"min":10000, "max":99999, "label":"10000-99999人确诊", "color":"#CC3333"},
+            {"min":100000, "label":"超过100000人确诊", "color":"#990033"}
+        ]
+    )
+)
+# 绘图
+map.render("河南省疫情地图.html")
+```
+{% endspoiler %}
+
+地图示例：
+<img src="\img\python从入门到进阶（一）\11-可视化地图3.png" alt="可视化地图3" title="可视化地图3">
+
+# 第十二章 python基础综合案例——数据可视化——动态柱状图
+## 01 基础柱状图构建
+通过Bar构建基础柱状图
+
+代码示例：
+```python
+from pyecharts.charts import Bar
+from pyecharts.options import LabelOpts # 导包以对坐标轴进行更多配置
+# 使用Bar构建基础柱状图
+bar = Bar()
+# 添加数据
+bar.add_xaxis(["中国", "美国", "英国"])
+bar.add_yaxis("GDP", [30, 20, 10], label_opts=LabelOpts(position="right")) # 使数据位于右侧，该功能非必须
+# 反转xy轴
+bar.reversal_axis()
+# 绘图
+bar.render("基础柱状图.html")
+```
+
+地图示例：
+<img src="\img\python从入门到进阶（一）\12-柱状图图1.png" alt="12-柱状图1" title="12-柱状图1">
+
+## 02 基础时间柱状图
+- 使用TimeLine()创建时间线
+
+
+代码示例：
+```python
+from pyecharts.charts import Bar, Timeline
+from pyecharts.options import *
+# 给时间线设置主题 导相关包
+from pyecharts.globals import ThemeType
+
+bar1 = Bar()
+bar1.add_xaxis(["中国", "美国", "英国"])
+bar1.add_yaxis("GDP", [30, 20, 10], label_opts=LabelOpts(position="right")) # 使数据位于右侧，该功能非必须
+bar1.reversal_axis()
+
+bar2 = Bar()
+bar2.add_xaxis(["中国", "美国", "英国"])
+bar2.add_yaxis("GDP", [50, 30, 20], label_opts=LabelOpts(position="right")) # 使数据位于右侧，该功能非必须
+bar2.reversal_axis()
+
+# 创建时间线对象
+timeline = Timeline({"theme":ThemeType.LIGHT}) # 设置主题
+# timeline对象添加bar柱状图
+timeline.add(bar1, "2021年GDP")
+timeline.add(bar2, "2022年GDP")
+# 设置自动播放
+timeline.add_schema(
+    play_interval=1000, # 自动播放的时间间隔，单位：毫秒
+    is_timeline_show=True, # 是否在自动播放的时候展示时间线
+    is_auto_play=True, # 是否自动播放
+    is_loop_play=True # 是否循环自动播放
+)
+# 通过时间线绘图
+timeline.render("基础柱状图.html")
+```
+
+地图示例：
+<img src="\img\python从入门到进阶（一）\12-柱状图图2.png" alt="12-柱状图2" title="12-柱状图2">
+
+## 03 GDP动态柱状图绘制
+### 列表的sort方法
+> 列表的sort方法
+>>在前面学习的sorted函数可以对数据容器进行排序；但是，在本案例中需要对列表进行排序并指定排序规则，sorted函数是无法完成的，为此需要补充学习列表的sort方法。
+
+- 列表.sort(key=选择排序依据的函数，reverse=True|False)
+    - 参数key，是要求传入一个函数。表示1将列表中的每一个元素都传入函数中，返回排序的依据
+    - 参数reverse，是否反转排序结果，True表示降序，False表示升序。
+
+代码示例：
+```python
+# 准备列表
+my_list = [["a",33],["b",55],["c",11]]
+# 排序函数
+def choose_sort_key(element):
+    return element[1]
+my_list.sort(key=choose_sort_key, reverse=True)
+print(my_list)
+# [['b', 55], ['a', 33], ['c', 11]]
+```
+还可以使用匿名函数
+```python
+# 准备列表
+my_list = [["a",33],["b",55],["c",11]]
+
+my_list.sort(key=lambda element:element[1], reverse=True)
+print(my_list)
+# [['b', 55], ['a', 33], ['c', 11]]
+```
+
+### 绘制动态柱状图
+代码示例：
+{% spoiler "点击显/隐内容" %}
+```python
+"""
+GDP动态柱状图开发
+"""
+from pyecharts.charts import Bar,Timeline
+from pyecharts.options import *
+from pyecharts.globals import ThemeType
+# 读取数据
+f = open("E:/文件总览/pythonlearning/1、Python快速入门（8天零基础入门到精通）/资料/第1-12章资料/资料/可视化案例数据/动态柱状图数据/1960-2019全球GDP数据.csv","r",encoding="GB2312")
+data_lines = f.readlines()
+# 关闭文件
+f.close()
+# 删除第一条数据
+data_lines.pop(0)
+# 将数据转换为字典存储
+# {年份：[[国家，GDP],[],...],[],[],...}
+data_dict = {}
+for line in data_lines:
+    year = int(line.split(",")[0])  # 年份
+    country = line.split(",")[1]    # 国家
+    gdp = float(line.split(",")[2]) # GDP数据
+    # 判断字典中是否有指定的key使用异常捕获
+    try:
+        data_dict[year].append([country,gdp])
+    except KeyError:
+        data_dict[year] = []
+        data_dict[year].append([country,gdp])
+# 排序年份
+sorted_year = sorted(data_dict.keys()) # 获取所有key值并排序
+
+timeline = Timeline({"theme":ThemeType.LIGHT})
+
+for year in sorted_year:
+    # 列表排序
+    data_dict[year].sort(key=lambda element:element[1],reverse=True)
+    # 取出前八个国家
+    year_data = data_dict[year][0:8]
+    x_data = []
+    y_data = []
+    for contry_gdp in year_data:
+        x_data.append(contry_gdp[0]) # x轴添加国家
+        y_data.append(contry_gdp[1]/100000000) # y轴添加GDP数据
+    x_data.reverse()
+    y_data.reverse()
+    bar = Bar()
+    bar.add_xaxis(x_data)
+    bar.add_yaxis("GDP()亿", y_data, label_opts=LabelOpts(position="right"))
+    bar.reversal_axis()
+    # 设置每一年图标的标题
+    bar.set_global_opts(
+        title_opts=TitleOpts(title=f"{year}年全球前八GDP数据")
+    )
+    timeline.add(bar, str(year))
+# 设置自动播放
+timeline.add_schema(
+    play_interval=1000, # 自动播放的时间间隔，单位：毫秒
+    is_timeline_show=True, # 是否在自动播放的时候展示时间线
+    is_auto_play=True, # 是否自动播放
+    is_loop_play=True # 是否循环自动播放
+)
+timeline.render("1960-2019年全球GDP国家前八名.html")
+```
+{% endspoiler %}
+
+动态柱状图示例：
+<img src="\img\python从入门到进阶（一）\12-柱状图图3.png" alt="12-柱状图3" title="12-柱状图3">
